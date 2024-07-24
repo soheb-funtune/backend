@@ -12,8 +12,9 @@ app.use(bodyParser.json());
 
 // Connect to MongoDB
 mongoose
+  // mongodb+srv://<username>:<password>@cluster0.cbtaqjr.mongodb.net/<dbname>?retryWrites=true&w=majority
   .connect(
-    "mongodb+srv://Soheb:soheb1999@cluster0.cbtaqjr.mongodb.net/academix-blog?retryWrites=true&w=majority",
+    "mongodb+srv://soheb:soheb1999@cluster0.cbtaqjr.mongodb.net/academix-blog?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connected to MongoDB..."))
@@ -89,10 +90,10 @@ app.put("/todos/:id", async (req, res) => {
 // Delete a todo by id
 app.delete("/todos/:id", async (req, res) => {
   try {
-    const todo = await Todo.findByIdAndRemove(req.params.id);
-    if (!todo)
-      return res.status(404).send("The todo with the given ID was not found.");
-    res.send(todo);
+    await Todo.findByIdAndDelete(req.params.id);
+    // if (!todo)
+    return res.status(200).send("Item is Deleted Successfully");
+    // res.send(todo);
   } catch (err) {
     res.status(400).send("Invalid ID");
   }
